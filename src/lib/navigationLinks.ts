@@ -1,14 +1,18 @@
 export const navigationLinks = [
 	{
-		title: 'Dashboard',
-		url: '/dashboard',
+		title: 'Overview',
+		url: '/overview',
 	},
 	{
-		title: 'Quick Sort',
-		url: '/quicksort',
+		title: 'Bubble Sort',
+		url: '/bubblesort',
 	},
 	{
 		title: 'Merge Sort',
 		url: '/mergesort',
+	},
+	{
+		title: 'Quick Sort',
+		url: '/quicksort',
 	}
 ];
