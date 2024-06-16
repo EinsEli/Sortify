@@ -10,7 +10,7 @@ import Simulation from "@/components/algorithms/bubblesort/simulation";
 import Description from "@/components/algorithms/bubblesort/description";
 import Complexity from "@/components/algorithms/bubblesort/complexity";
 import Code from "@/components/algorithms/bubblesort/code";
-import { useFullscreen } from "@/components/layout/fullscreen";
+import { useFullscreen } from "@/components/layout/context";
 
 
 export default function Page() {

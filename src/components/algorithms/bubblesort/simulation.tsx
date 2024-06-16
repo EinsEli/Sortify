@@ -8,8 +8,9 @@ import {
 } from "@/components/ui/card";
 import { generateRandomArray, calculateSleepTime } from "@/lib/simulation";
 import SimulationControls from "@/components/info-page/simulation-controls";
-import { useState, useRef, useEffect, use } from "react";
+import { useState, useRef, useEffect } from "react";
 import { generateSound } from "@/lib/sound-generator";
+import { usePlayAudio } from "@/components/layout/context";
 
 export type SimulationState = "idle" | "running" | "paused" | "finished";
 export type SimulationData = { array: number[] };
@@ -25,6 +26,12 @@ export default function Simulation() {
 	const speedRef = useRef(speed);
 	const dataRef = useRef(data);
 	const simulationStateRef = useRef(simulationState);
+	const { playAudio } = usePlayAudio();
+	const playAudioRef = useRef(playAudio);
+
+	useEffect(() => {
+		playAudioRef.current = playAudio;
+	}, [playAudio]);
 
 	useEffect(() => {
 		speedRef.current = speed;
@@ -82,8 +89,8 @@ export default function Simulation() {
 				);
 
 				// Play a sound to indicate that the cells are being compared
-				generateSound(data[j].value*10, 50);
-				generateSound(data[j + 1].value*10, 50);
+				if (playAudioRef.current) generateSound(data[j].value*10, 50);
+				if (playAudioRef.current) generateSound(data[j + 1].value*10, 50);
 				// Compare the values and swap them if necessary
 				if (data[j].value > data[j + 1].value) {
 					const temp = data[j].value;
@@ -97,7 +104,7 @@ export default function Simulation() {
 		}
 		// Highlight the entire array in blue to indicate that the sorting is finished
 		for (let i = 0; i < data.length; i++) {
-			await generateSound(data[i].value*10, 100);
+			 if (playAudioRef.current) await generateSound(data[i].value*10, 100);
 			await highlightCells([i], 20, "hsl(var(--accent-blue))");
 		}
 		setSimulationState("finished");

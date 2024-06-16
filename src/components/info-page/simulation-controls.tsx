@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Dices, Maximize2, Minimize2, Pause, Play } from "lucide-react";
+import { Dices, Maximize2, Minimize2, Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import {
 	Tooltip,
@@ -9,7 +9,7 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { SimulationState } from "../algorithms/bubblesort/simulation";
-import { useFullscreen } from "@/components/layout/fullscreen";
+import { useFullscreen, usePlayAudio } from "@/components/layout/context";
 
 export type SimulationControlsProps = {
 	onStart: () => void;
@@ -33,6 +33,7 @@ export default function SimulationControls({
 	children,
 }: SimulationControlsProps) {
 	const { isFullscreen, setIsFullscreen } = useFullscreen();
+	const { playAudio, setPlayAudio } = usePlayAudio();
 
 	return (
 		<div className="flex flex-row gap-4 p-1">
@@ -104,6 +105,13 @@ export default function SimulationControls({
 						className={simulationState === "running" || simulationState === "paused" ? "opacity-50 cursor-wait" : ""}
 					/>
 				</div>
+				<Button variant={"ghost"} onClick={() => setPlayAudio(!playAudio)}>
+					{playAudio ? (
+						<Volume2 className="h-5 w-5" />
+					) : (
+						<VolumeX className="h-5 w-5" />
+					)}
+				</Button>
 				<Button variant={"ghost"} onClick={() => setIsFullscreen(!isFullscreen)}>
 					{isFullscreen ? (
 						<Minimize2 className="h-5 w-5" />
