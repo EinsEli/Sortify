@@ -20,6 +20,7 @@ import { SimulationState } from "../algorithms/bubblesort/simulation";
 import { useFullscreen, usePlayAudio } from "@/components/layout/context";
 import { useEffect, useRef, useState } from "react";
 import { generateRandomArray } from "@/lib/simulation";
+import { TimerRef } from "./timer";
 
 export type SimulationControlsProps = {
 	onStart: () => void;
@@ -30,6 +31,7 @@ export type SimulationControlsProps = {
 	delay: number;
 	setDelay: (delay: number) => void;
 	children?: React.ReactNode;
+	timerRef?: React.MutableRefObject<TimerRef>;
 };
 
 export type ArrayData = { value: number; fill: string };
@@ -51,12 +53,13 @@ export default function SimulationControls({
 	delay,
 	setDelay,
 	children,
+	timerRef,
 }: SimulationControlsProps) {
 	const simulationStateRef = useRef(simulationState);
-	
+
 	const { isFullscreen, setIsFullscreen } = useFullscreen();
 	const { playAudio, setPlayAudio } = usePlayAudio();
-	
+
 	const [arraySize, setArraySize] = useState(10);
 	const [initialData, setInitialData] = useState(
 		JSON.parse(JSON.stringify(data))
@@ -80,7 +83,6 @@ export default function SimulationControls({
 		}
 	}
 
-
 	/*
 	 * HANDLERS
 	 */
@@ -88,23 +90,34 @@ export default function SimulationControls({
 		setSimulationState("idle");
 		synchronizeDataStates(initialData);
 		resetArrayColors();
+		timerRef?.current.stop();
 	}
 
 	function handleRandomizeArray() {
 		setSimulationState("idle");
 		synchronizeDataStates(generateRandomArray(arraySize, 1, 100));
 		resetArrayColors();
+		timerRef?.current.stop();
 	}
-	
+
 	function handleArraySizeChange(value: number[]) {
 		setSimulationState("idle");
 		setArraySize(value[0]);
 		synchronizeDataStates(generateRandomArray(value[0], 1, 100));
+		resetArrayColors();
+		timerRef?.current.stop();
 	}
 
 	function handleSpeedChange(value: number[]) {
 		setDelay(calculateSleepTime(value[0]));
-		console.log("Speed changed to", value[0], delay);
+	}
+
+	async function handleStart() {
+		setSimulationState("running");
+		if (simulationStateRef.current === "idle") {
+			await onStart();
+			setSimulationState("finished");
+		}
 	}
 
 	return (
@@ -114,13 +127,7 @@ export default function SimulationControls({
 					<TooltipTrigger asChild>
 						<Button
 							variant={"outline"}
-							onClick={async () => {
-								setSimulationState("running");
-								if (simulationStateRef.current === "idle") {
-									await onStart();
-									setSimulationState("finished");
-								}
-							}}
+							onClick={handleStart}
 							disabled={
 								simulationState === "running" ||
 								simulationState === "finished"
@@ -172,7 +179,12 @@ export default function SimulationControls({
 					Reset to initial array
 				</Button>
 				<div className="flex flex-col gap-2 w-full">
-					<Label className="w-full">Simulation Speed: <b className="text-muted-foreground font-normal">{delay /1000} Seconds</b></Label>
+					<Label className="w-full">
+						Simulation Speed:{" "}
+						<b className="text-muted-foreground font-normal">
+							{delay / 1000} Seconds
+						</b>
+					</Label>
 					<Slider
 						min={0}
 						max={100}
@@ -182,14 +194,22 @@ export default function SimulationControls({
 					/>
 				</div>
 				<div className="flex flex-col gap-2 w-full">
-					<Label className="w-full">Array Size: <b className="text-muted-foreground font-normal">{arraySize}</b></Label>
+					<Label className="w-full">
+						Array Size:{" "}
+						<b className="text-muted-foreground font-normal">
+							{arraySize}
+						</b>
+					</Label>
 					<Slider
 						min={3}
 						max={125}
 						step={1}
 						defaultValue={[arraySize]}
 						onValueChange={handleArraySizeChange}
-						disabled={simulationState === "running" || simulationState === "paused"}
+						disabled={
+							simulationState === "running" ||
+							simulationState === "paused"
+						}
 						className={
 							simulationState === "running" ||
 							simulationState === "paused"

@@ -37,6 +37,7 @@
 		--radius: 0.5rem;
 		--accent-blue: 221.2 83.2% 53.3%;
 		--accent-green: 142 76% 36%;
+		--accent-red: 0 72.2% 50.6%;
 	}
 
 	.dark {
@@ -69,6 +70,7 @@
 		--ring: 0 0% 83.1%;
 		--accent-blue: 217.2 91.2% 59.8%;
 		--accent-green: 142 71% 45%;
+		--accent-red: 0 72.2% 50.6%;
 	}
 }
 

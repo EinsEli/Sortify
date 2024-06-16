@@ -12,15 +12,15 @@ export default function ComplexityDisplay({best, worst, average} : {best: string
 			</div>
 			<div className="flex flex-row ">
 				<label className="text-md text-muted-foreground w-36">
-					Worst Case
-				</label>
-				<Latex>{"$" + worst + "$"}</Latex>
-			</div>
-			<div className="flex flex-row ">
-				<label className="text-md text-muted-foreground w-36">
 					Average Case
 				</label>
 				<Latex>{"$" + average + "$"}</Latex>
+			</div>
+			<div className="flex flex-row ">
+				<label className="text-md text-muted-foreground w-36">
+					Worst Case
+				</label>
+				<Latex>{"$" + worst + "$"}</Latex>
 			</div>
 		</div>
 	);
