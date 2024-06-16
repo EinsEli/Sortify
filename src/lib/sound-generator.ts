@@ -3,25 +3,30 @@
  */
 
 // Create audio context
-const audioContext = new AudioContext();
+let audioContext: AudioContext | null = null;
+
+if (typeof window !== 'undefined') {
+  audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+}
 
 export function generateSound(frequency: number, duration: number) {
-    // Create oscillator
-    const oscillator = audioContext.createOscillator();
-    oscillator.type = "triangle"; // "sine", "square", "sawtooth", "triangle"
-    oscillator.frequency.value = frequency;
+  if (!audioContext) {
+    console.error('AudioContext is not supported in this environment');
+    return;
+  }
 
-    // Create gain node for amplitude control
-    const gainNode = audioContext.createGain();
-    gainNode.gain.value = 0.1;
+  const oscillator = audioContext.createOscillator();
+  oscillator.type = "triangle"; // "sine", "square", "sawtooth", "triangle"
+  oscillator.frequency.value = frequency;
 
-    // Connect oscillator to gain node and gain node to destination
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+  const gainNode = audioContext.createGain();
+  gainNode.gain.value = 0.1;
 
-    // Start oscillator
-    oscillator.start();
-    setTimeout(() => {
-        oscillator.stop();
-    }, duration);
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  oscillator.start();
+  setTimeout(() => {
+    oscillator.stop();
+  }, duration);
 }

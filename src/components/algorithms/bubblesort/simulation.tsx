@@ -6,7 +6,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { generateRandomArray, calculateSleepTime } from "@/lib/simulation";
+import { generateRandomArray } from "@/lib/simulation";
 import SimulationControls from "@/components/info-page/simulation-controls";
 import { useState, useRef, useEffect } from "react";
 import { generateSound } from "@/lib/sound-generator";
@@ -22,8 +22,8 @@ export default function Simulation() {
 	const [initialData, setInitialData] = useState(
 		JSON.parse(JSON.stringify(data))
 	);
-	const [speed, setSpeed] = useState(50);
-	const speedRef = useRef(speed);
+	const [delay, setDelay] = useState(750);
+	const delayRef = useRef(delay);
 	const dataRef = useRef(data);
 	const simulationStateRef = useRef(simulationState);
 	const { playAudio } = usePlayAudio();
@@ -34,8 +34,8 @@ export default function Simulation() {
 	}, [playAudio]);
 
 	useEffect(() => {
-		speedRef.current = speed;
-	}, [speed]);
+		delayRef.current = delay;
+	}, [delay]);
 
 	useEffect(() => {
 		dataRef.current = data;
@@ -58,19 +58,6 @@ export default function Simulation() {
 		dataRef.current = [...data];
 	}
 
-	async function waitForPause() {
-		if (simulationStateRef.current === "paused") {
-			await new Promise((resolve) => {
-				const checkPause = setInterval(() => {
-					if (simulationStateRef.current === "running") {
-						clearInterval(checkPause);
-						resolve(null);
-					}
-				}, 50);
-			});
-		}
-	}
-
 	/*
 		Run the simulation of the sorting algorithm.
 	 */
@@ -78,10 +65,19 @@ export default function Simulation() {
 		for (let i = 0; i < data.length; i++) {
 			for (let j = 0; j < data.length - i - 1; j++) {
 				// If the simulation is paused, wait for it to resume
-				await waitForPause();
-			
+				if (simulationStateRef.current === "paused") {
+					await new Promise((resolve) => {
+						const checkPause = setInterval(() => {
+							if (simulationStateRef.current === "running") {
+								clearInterval(checkPause);
+								resolve(null);
+							}
+						}, 50);
+					});
+				}
+
 				// Highlight the cells being compared
-				const time = calculateSleepTime(speedRef.current);
+				const time = delayRef.current;
 				await highlightCells(
 					[j, j + 1],
 					time,
@@ -89,8 +85,9 @@ export default function Simulation() {
 				);
 
 				// Play a sound to indicate that the cells are being compared
-				if (playAudioRef.current) generateSound(data[j].value*10, 50);
-				if (playAudioRef.current) generateSound(data[j + 1].value*10, 50);
+				if (playAudioRef.current) generateSound(data[j].value * 10, 50);
+				if (playAudioRef.current)
+					generateSound(data[j + 1].value * 10, 50);
 				// Compare the values and swap them if necessary
 				if (data[j].value > data[j + 1].value) {
 					const temp = data[j].value;
@@ -102,59 +99,26 @@ export default function Simulation() {
 				await highlightCells([j, j + 1], time, "hsl(var(--primary))");
 			}
 		}
+		console.log("Sorting finished!");
 		// Highlight the entire array in blue to indicate that the sorting is finished
 		for (let i = 0; i < data.length; i++) {
-			 if (playAudioRef.current) await generateSound(data[i].value*10, 100);
-			await highlightCells([i], 20, "hsl(var(--accent-blue))");
+			if (playAudioRef.current)
+				await generateSound(data[i].value * 10, 100);
+			await highlightCells([i], 20, "hsl(var(--accent-green))");
 		}
 		setSimulationState("finished");
-	}
-
-	/*
-	 * Reset the simulation to its initial state and stop the simulation.
-	 */
-	function handleReset() {
-		data.forEach((entry, index) => {
-			data[index].fill = "hsl(var(--primary))";
-		});
-		setData(JSON.parse(JSON.stringify(initialData)));
-		setInitialData(JSON.parse(JSON.stringify(initialData)));
-		setSimulationState("idle");
-	}
-
-	/*
-	 * Generate a new random array of the current size.
-	 */
-	function handleRandomize() {
-		data.forEach((entry, index) => {
-			data[index].fill = "hsl(var(--primary))";
-		});
-		const newData = generateRandomArray(data.length, 1, 100);
-		setData(newData);
-		setInitialData(JSON.parse(JSON.stringify(newData)));
-		setSimulationState("idle");
-	}
-
-	/*
-	 * Generate a new random array of the new size.
-	 */
-	function handleArraySizeChange(value: number) {
-		const newData = generateRandomArray(value, 1, 100);
-		setData(newData);
-		setInitialData(JSON.parse(JSON.stringify(newData)));
-		setSimulationState("idle");
 	}
 
 	return (
 		<div className="w-full h-full flex flex-col gap-4">
 			<SimulationControls
 				onStart={bubbleSort}
-				onReset={handleReset}
-				onRandomize={handleRandomize}
-				onSpeedChange={setSpeed}
-				onArraySizeChange={handleArraySizeChange}
-				setSimulationState={setSimulationState}
 				simulationState={simulationState}
+				setSimulationState={setSimulationState}
+				data={data}
+				setData={setData}
+				delay={delay}
+				setDelay={setDelay}
 			/>
 			<Card className="w-full h-full flex flex-col">
 				<CardHeader className="flex flex-col pb-2">
@@ -164,6 +128,10 @@ export default function Simulation() {
 					<CardDescription>
 						Use the controls above to start, pause, or reset the
 						simulation or adjust the speed of the sorting algorithm.
+						<br />
+						Elements highlighted in{" "}
+						<b className="text-blue-500">blue</b> are getting
+						compared.
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="flex-grow flex flex-col">
