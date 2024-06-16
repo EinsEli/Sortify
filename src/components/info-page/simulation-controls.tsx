@@ -52,9 +52,11 @@ export default function SimulationControls({
 	setDelay,
 	children,
 }: SimulationControlsProps) {
+	const simulationStateRef = useRef(simulationState);
+	
 	const { isFullscreen, setIsFullscreen } = useFullscreen();
 	const { playAudio, setPlayAudio } = usePlayAudio();
-	const simulationStateRef = useRef(simulationState);
+	
 	const [arraySize, setArraySize] = useState(10);
 	const [initialData, setInitialData] = useState(
 		JSON.parse(JSON.stringify(data))
@@ -64,20 +66,11 @@ export default function SimulationControls({
 		simulationStateRef.current = simulationState;
 	}, [simulationState]);
 
-	function handleResetArray() {
-		setSimulationState("idle");
-		synchronizeDataStates(JSON.parse(JSON.stringify(initialData)));
-		resetArrayColors();
-	};
-
-	function handleRandomizeArray() {
-		setSimulationState("idle");
-		synchronizeDataStates(generateRandomArray(arraySize, 1, 100));
-		resetArrayColors();
-	}
-
-	function synchronizeDataStates(data: ArrayData[]){
-		setData(data);
+	/*
+	 * UTILS
+	 */
+	function synchronizeDataStates(data: ArrayData[]) {
+		setData(JSON.parse(JSON.stringify(data)));
 		setInitialData(JSON.parse(JSON.stringify(data)));
 	}
 
@@ -86,7 +79,33 @@ export default function SimulationControls({
 			data[i].fill = "hsl(var(--primary))";
 		}
 	}
+
+
+	/*
+	 * HANDLERS
+	 */
+	function handleResetArray() {
+		setSimulationState("idle");
+		synchronizeDataStates(initialData);
+		resetArrayColors();
+	}
+
+	function handleRandomizeArray() {
+		setSimulationState("idle");
+		synchronizeDataStates(generateRandomArray(arraySize, 1, 100));
+		resetArrayColors();
+	}
 	
+	function handleArraySizeChange(value: number[]) {
+		setSimulationState("idle");
+		setArraySize(value[0]);
+		synchronizeDataStates(generateRandomArray(value[0], 1, 100));
+	}
+
+	function handleSpeedChange(value: number[]) {
+		setDelay(calculateSleepTime(value[0]));
+		console.log("Speed changed to", value[0], delay);
+	}
 
 	return (
 		<div className="flex flex-row gap-4 p-1">
@@ -146,38 +165,31 @@ export default function SimulationControls({
 					onClick={handleResetArray}
 					disabled={
 						simulationState === "idle" ||
-						simulationState === "running"
+						simulationState === "running" ||
+						simulationState === "paused"
 					}
 				>
-					Reset to initial state
+					Reset to initial array
 				</Button>
 				<div className="flex flex-col gap-2 w-full">
-					<Label className="w-full">Simulation Speed</Label>
+					<Label className="w-full">Simulation Speed: <b className="text-muted-foreground font-normal">{delay /1000} Seconds</b></Label>
 					<Slider
 						min={0}
 						max={100}
 						step={1}
-						defaultValue={[50]}
-						onValueChange={(value) => {
-							setDelay(calculateSleepTime(value[0]));
-						}}
+						defaultValue={[60]}
+						onValueChange={handleSpeedChange}
 					/>
 				</div>
 				<div className="flex flex-col gap-2 w-full">
-					<Label className="w-full">Array Size</Label>
+					<Label className="w-full">Array Size: <b className="text-muted-foreground font-normal">{arraySize}</b></Label>
 					<Slider
 						min={3}
 						max={125}
 						step={1}
 						defaultValue={[arraySize]}
-						onValueChange={(value) => {
-							setArraySize(value[0]);
-							synchronizeDataStates(generateRandomArray(value[0], 1, 100));
-						}}
-						disabled={
-							simulationState === "running" ||
-							simulationState === "paused"
-						}
+						onValueChange={handleArraySizeChange}
+						disabled={simulationState === "running" || simulationState === "paused"}
 						className={
 							simulationState === "running" ||
 							simulationState === "paused"
@@ -206,12 +218,6 @@ export default function SimulationControls({
 						<Maximize2 className="h-5 w-5" />
 					)}
 				</Button>
-				{/* DEBUG */}
-				<Button>{simulationState}</Button>
-				<Button>{delay}</Button>
-				<Button>{arraySize}</Button>
-				<Button onClick={() => console.log(data)}>Log data</Button>
-				{/* DEBUG */}
 				{children}
 			</TooltipProvider>
 		</div>

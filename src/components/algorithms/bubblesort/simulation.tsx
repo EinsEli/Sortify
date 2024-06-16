@@ -19,7 +19,7 @@ export default function Simulation() {
 	const [simulationState, setSimulationState] =
 		useState<SimulationState>("idle");
 	const [data, setData] = useState(generateRandomArray(10, 1, 100));
-	const [delay, setDelay] = useState(750);
+	const [delay, setDelay] = useState(585);
 	const delayRef = useRef(delay);
 	const dataRef = useRef(data);
 	const simulationStateRef = useRef(simulationState);
@@ -45,8 +45,7 @@ export default function Simulation() {
 	async function highlightCells(
 		indices: number[],
 		time: number,
-		color: string,
-
+		color: string
 	) {
 		indices.forEach((index) => {
 			data[index].fill = color;
@@ -83,9 +82,10 @@ export default function Simulation() {
 				);
 
 				// Play a sound to indicate that the cells are being compared
-				if (playAudioRef.current) generateSound(data[j].value * 10, 50);
-				if (playAudioRef.current)
+				if (playAudioRef.current) {
+					generateSound(data[j].value * 10, 50);
 					generateSound(data[j + 1].value * 10, 50);
+				}
 				// Compare the values and swap them if necessary
 				if (data[j].value > data[j + 1].value) {
 					const temp = data[j].value;
