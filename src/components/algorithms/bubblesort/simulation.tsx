@@ -9,6 +9,7 @@ import {
 import { generateRandomArray, calculateSleepTime } from "@/lib/simulation";
 import SimulationControls from "@/components/info-page/simulation-controls";
 import { useState, useRef, useEffect, use } from "react";
+import { generateSound } from "@/lib/sound-generator";
 
 export type SimulationState = "idle" | "running" | "paused" | "finished";
 export type SimulationData = { array: number[] };
@@ -66,13 +67,12 @@ export default function Simulation() {
 	/*
 		Run the simulation of the sorting algorithm.
 	 */
-	async function handleStart() {
+	async function bubbleSort() {
 		for (let i = 0; i < data.length; i++) {
 			for (let j = 0; j < data.length - i - 1; j++) {
 				// If the simulation is paused, wait for it to resume
 				await waitForPause();
-
-
+			
 				// Highlight the cells being compared
 				const time = calculateSleepTime(speedRef.current);
 				await highlightCells(
@@ -80,6 +80,10 @@ export default function Simulation() {
 					time,
 					"hsl(var(--accent-blue))"
 				);
+
+				// Play a sound to indicate that the cells are being compared
+				generateSound(data[j].value*10, 50);
+				generateSound(data[j + 1].value*10, 50);
 				// Compare the values and swap them if necessary
 				if (data[j].value > data[j + 1].value) {
 					const temp = data[j].value;
@@ -92,11 +96,10 @@ export default function Simulation() {
 			}
 		}
 		// Highlight the entire array in blue to indicate that the sorting is finished
-		await highlightCells(
-			data.map((_, index) => index),
-			calculateSleepTime(speedRef.current),
-			"hsl(var(--accent-blue))"
-		);
+		for (let i = 0; i < data.length; i++) {
+			await generateSound(data[i].value*10, 100);
+			await highlightCells([i], 20, "hsl(var(--accent-blue))");
+		}
 		setSimulationState("finished");
 	}
 
@@ -138,7 +141,7 @@ export default function Simulation() {
 	return (
 		<div className="w-full h-full flex flex-col gap-4">
 			<SimulationControls
-				onStart={handleStart}
+				onStart={bubbleSort}
 				onReset={handleReset}
 				onRandomize={handleRandomize}
 				onSpeedChange={setSpeed}
