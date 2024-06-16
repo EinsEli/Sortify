@@ -25,12 +25,14 @@ export type SimulationControlsProps = {
 	onStart: () => void;
 	simulationState: SimulationState;
 	setSimulationState: (state: SimulationState) => void;
-	data: { value: number; fill: string }[];
-	setData: (data: { value: number; fill: string }[]) => void;
+	data: ArrayData[];
+	setData: (data: ArrayData[]) => void;
 	delay: number;
 	setDelay: (delay: number) => void;
 	children?: React.ReactNode;
 };
+
+export type ArrayData = { value: number; fill: string };
 
 function calculateSleepTime(speed: number) {
 	const MAX_SLEEP_MS = 1500;
@@ -64,15 +66,25 @@ export default function SimulationControls({
 
 	function handleResetArray() {
 		setSimulationState("idle");
-		setData(JSON.parse(JSON.stringify(initialData)));
+		synchronizeDataStates(JSON.parse(JSON.stringify(initialData)));
+		resetArrayColors();
+	};
+
+	function handleRandomizeArray() {
+		setSimulationState("idle");
+		synchronizeDataStates(generateRandomArray(arraySize, 1, 100));
+		resetArrayColors();
+	}
+
+	function synchronizeDataStates(data: ArrayData[]){
+		setData(data);
+		setInitialData(JSON.parse(JSON.stringify(data)));
+	}
+
+	function resetArrayColors() {
 		for (let i = 0; i < data.length; i++) {
 			data[i].fill = "hsl(var(--primary))";
 		}
-	};
-
-	function synchronizeDataStates(data: { value: number; fill: string }[]) {
-		setData(data);
-		setInitialData(JSON.parse(JSON.stringify(data)));
 	}
 	
 
@@ -118,10 +130,7 @@ export default function SimulationControls({
 					<TooltipTrigger asChild>
 						<Button
 							variant={"outline"}
-							onClick={() => {
-								setSimulationState("idle");
-								synchronizeDataStates(generateRandomArray(arraySize, 1, 100));
-							}}
+							onClick={handleRandomizeArray}
 							disabled={
 								simulationState === "running" ||
 								simulationState === "paused"

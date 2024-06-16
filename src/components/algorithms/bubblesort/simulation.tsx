@@ -19,9 +19,6 @@ export default function Simulation() {
 	const [simulationState, setSimulationState] =
 		useState<SimulationState>("idle");
 	const [data, setData] = useState(generateRandomArray(10, 1, 100));
-	const [initialData, setInitialData] = useState(
-		JSON.parse(JSON.stringify(data))
-	);
 	const [delay, setDelay] = useState(750);
 	const delayRef = useRef(delay);
 	const dataRef = useRef(data);
@@ -48,7 +45,8 @@ export default function Simulation() {
 	async function highlightCells(
 		indices: number[],
 		time: number,
-		color: string
+		color: string,
+
 	) {
 		indices.forEach((index) => {
 			data[index].fill = color;
@@ -106,7 +104,6 @@ export default function Simulation() {
 				await generateSound(data[i].value * 10, 100);
 			await highlightCells([i], 20, "hsl(var(--accent-green))");
 		}
-		setSimulationState("finished");
 	}
 
 	return (
