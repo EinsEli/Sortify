@@ -31,11 +31,9 @@ export function ContextProvider({
     const [playAudio, setPlayAudio] = useState(false);
 
     useEffect(() => {
-        console.log("playAudio", playAudio);
     }, [playAudio]);
 
     useEffect(() => {
-        console.log("isFullscreen", isFullscreen);
     }, [isFullscreen]);
 
     return (
