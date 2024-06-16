@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Link } from "next-view-transitions";
-import { navigationLinks } from "@/lib/navigationLinks";
+import { navigationLinks } from "@/lib/navigation-Links";
 import { BarChartBig } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./dark-mode-toggle";

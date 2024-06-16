@@ -1,4 +1,5 @@
-import MathFormula from "@/components/math/MathFormula";
+import "katex/dist/katex.min.css";
+import Latex from "react-latex-next";
 
 export default function ComplexityDisplay({best, worst, average} : {best: string, worst: string, average: string}) {
 	return (
@@ -7,19 +8,19 @@ export default function ComplexityDisplay({best, worst, average} : {best: string
 				<label className="text-md text-muted-foreground w-36">
 					Best Case
 				</label>
-				<MathFormula text={best} />
+				<Latex>{"$" + best + "$"}</Latex>
 			</div>
 			<div className="flex flex-row ">
 				<label className="text-md text-muted-foreground w-36">
 					Worst Case
 				</label>
-				<MathFormula text={worst} />
+				<Latex>{"$" + worst + "$"}</Latex>
 			</div>
 			<div className="flex flex-row ">
 				<label className="text-md text-muted-foreground w-36">
 					Average Case
 				</label>
-				<MathFormula text={average} />
+				<Latex>{"$" + average + "$"}</Latex>
 			</div>
 		</div>
 	);

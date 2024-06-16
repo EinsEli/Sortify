@@ -6,7 +6,7 @@ import {
 	ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import NavHeader from "@/components/layout/nav-header";
-import Simulation from "@/components/info-page/simulation";
+import Simulation from "@/components/algorithms/bubblesort/simulation";
 import Description from "@/components/algorithms/bubblesort/description";
 import Complexity from "@/components/algorithms/bubblesort/complexity";
 import Code from "@/components/algorithms/bubblesort/code";

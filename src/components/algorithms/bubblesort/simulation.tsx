@@ -6,7 +6,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { generateRandomArray, calculateSleepTime } from "@/lib/utils";
+import { generateRandomArray, calculateSleepTime } from "@/lib/simulation";
 import SimulationControls from "@/components/info-page/simulation-controls";
 import { useState, useRef, useEffect, use } from "react";
 
@@ -91,7 +91,12 @@ export default function Simulation() {
 				await highlightCells([j, j + 1], time, "hsl(var(--primary))");
 			}
 		}
-		// Highlight the sorted array
+		// Highlight the entire array in blue to indicate that the sorting is finished
+		await highlightCells(
+			data.map((_, index) => index),
+			calculateSleepTime(speedRef.current),
+			"hsl(var(--accent-blue))"
+		);
 		setSimulationState("finished");
 	}
 

@@ -8,7 +8,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { SimulationState } from "./simulation";
+import { SimulationState } from "../algorithms/bubblesort/simulation";
 import { useFullscreen } from "@/components/layout/fullscreen";
 
 export type SimulationControlsProps = {
