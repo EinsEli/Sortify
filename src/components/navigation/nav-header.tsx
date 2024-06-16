@@ -30,7 +30,7 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 									href={link.url}
 									className={`text-muted-foreground transition-colors hover:text-foreground ${
 										link.url == pathname
-											? "text-foreground font-semibold"
+											? "text-black font-semibold dark:text-white"
 											: ""
 									}`}
 								>
@@ -42,7 +42,7 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 					<ModeToggle />
 				</nav>
 			</header>
-			<main className="flex-grow flex bg-muted/40 gap-8 p-10">{children}</main>
+			<main className="flex-grow flex-col flex bg-muted/40 gap-8 p-10">{children}</main>
 		</div>
 	);
 }
