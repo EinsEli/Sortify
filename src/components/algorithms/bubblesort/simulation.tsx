@@ -11,6 +11,7 @@ import SimulationControls from "@/components/info-page/simulation-controls";
 import { useState, useRef, useEffect } from "react";
 import { generateSound } from "@/lib/sound-generator";
 import { usePlayAudio } from "@/components/layout/context";
+import TimerDisplay, { TimerRef } from "@/components/info-page/timer";
 
 export type SimulationState = "idle" | "running" | "paused" | "finished";
 export type SimulationData = { array: number[] };
@@ -25,6 +26,7 @@ export default function Simulation() {
 	const simulationStateRef = useRef(simulationState);
 	const { playAudio } = usePlayAudio();
 	const playAudioRef = useRef(playAudio);
+	const timerRef = useRef<TimerRef>(null!);
 
 	useEffect(() => {
 		playAudioRef.current = playAudio;
@@ -59,6 +61,7 @@ export default function Simulation() {
 		Run the simulation of the sorting algorithm.
 	 */
 	async function bubbleSort() {
+		timerRef.current?.start();
 		for (let i = 0; i < data.length; i++) {
 			for (let j = 0; j < data.length - i - 1; j++) {
 				// If the simulation is paused, wait for it to resume
@@ -97,6 +100,7 @@ export default function Simulation() {
 				await highlightCells([j, j + 1], time, "hsl(var(--primary))");
 			}
 		}
+		timerRef.current?.pause();
 		for (let i = 0; i < data.length; i++) {
 			if (playAudioRef.current)
 				await generateSound(data[i].value * 10, 100);
@@ -114,11 +118,13 @@ export default function Simulation() {
 				setData={setData}
 				delay={delay}
 				setDelay={setDelay}
+				timerRef={timerRef}
 			/>
 			<Card className="w-full h-full flex flex-col">
 				<CardHeader className="flex flex-col pb-2">
-					<CardTitle className="text-xl font-semibold">
+				<CardTitle className="text-xl font-semibold flex flex-row justify-between">
 						Simulation
+						<TimerDisplay ref={timerRef}/>
 					</CardTitle>
 					<CardDescription>
 						Use the controls above to start, pause, or reset the
