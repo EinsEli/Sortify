@@ -42,9 +42,7 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 					<ModeToggle />
 				</nav>
 			</header>
-			<main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col bg-muted/40 gap-8 p-10">
-				{children}
-			</main>
+			<main className="flex-grow flex bg-muted/40 gap-8 p-10">{children}</main>
 		</div>
 	);
 }

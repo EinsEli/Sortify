@@ -16,8 +16,8 @@ export default function Page() {
 			<div>
 				<h1 className="text-xl font-semibold">Overview</h1>
 				<p className="text-md text-muted-foreground">
-					Get an overview of which sorting algorithms are available
-					for visualization.
+					See which sorting algorithms are available
+					for visualization and learn how they work. 
 				</p>
 			</div>
 			<div className="grid grid-cols-3 gap-4">
