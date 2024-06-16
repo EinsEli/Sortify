@@ -34,7 +34,7 @@ const data = [
 	},
 ];
 
-export function CardsStats() {
+export default function Simulation() {
 	return (
 		<div className="w-full h-full">
 			<Card className="w-full h-full flex flex-col">

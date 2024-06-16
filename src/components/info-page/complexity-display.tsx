@@ -1,6 +1,6 @@
 import MathFormula from "@/components/math/MathFormula";
 
-export default function Complexity({best, worst, average} : {best: string, worst: string, average: string}) {
+export default function ComplexityDisplay({best, worst, average} : {best: string, worst: string, average: string}) {
 	return (
 		<div className="flex flex-col gap-2">
 			<div className="flex flex-row ">

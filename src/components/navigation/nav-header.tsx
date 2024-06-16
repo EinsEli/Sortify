@@ -12,7 +12,7 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 
 	return (
 		<div className="flex min-h-screen w-full flex-col">
-			<header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+			<header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-md px-6 z-50">
 				<nav className="flex flex-row w-full justify-between">
 					<div className="font-medium flex flex-row items-center text-sm gap-6 lg:gap-7">
 						<Link
@@ -30,7 +30,7 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 									href={link.url}
 									className={`text-muted-foreground transition-colors hover:text-foreground ${
 										link.url == pathname
-											? "text-black font-semibold dark:text-white"
+											? "!text-black font-semibold dark:!text-white"
 											: ""
 									}`}
 								>
