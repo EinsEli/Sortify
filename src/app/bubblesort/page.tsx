@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import NavHeader from "@/components/navigation/nav-header";
-import Simulation from "@/components/algorithms/bubblesort/simulation";
+import Simulation from "@/components/info-page/simulation";
 import Description from "@/components/algorithms/bubblesort/description";
 import Complexity from "@/components/algorithms/bubblesort/complexity";
 import Code from "@/components/algorithms/bubblesort/code";
