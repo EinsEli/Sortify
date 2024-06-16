@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { ViewTransitions } from "next-view-transitions";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import "./globals.css";
+import { FullscreenProvider } from "@/components/layout/fullscreen";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,7 @@ export default function RootLayout({
 						defaultTheme="system"
 						enableSystem
 					>
-						{children}
+						<FullscreenProvider>{children}</FullscreenProvider>
 					</ThemeProvider>
 				</body>
 			</html>

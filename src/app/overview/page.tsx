@@ -1,4 +1,4 @@
-import NavHeader from "@/components/navigation/nav-header";
+import NavHeader from "@/components/layout/nav-header";
 import {
 	Card,
 	CardContent,

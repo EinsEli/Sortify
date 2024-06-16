@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Dices, Pause, Play } from "lucide-react";
+import { Dices, Maximize2, Minimize2, Pause, Play } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import {
 	Tooltip,
@@ -9,6 +9,7 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { SimulationState } from "./simulation";
+import { useFullscreen } from "@/components/layout/fullscreen";
 
 export type SimulationControlsProps = {
 	onStart: () => void;
@@ -18,6 +19,7 @@ export type SimulationControlsProps = {
 	onArraySizeChange: (value: number) => void;
 	simulationState: SimulationState;
 	setSimulationState: (value: SimulationState) => void;
+	children?: React.ReactNode;
 };
 
 export default function SimulationControls({
@@ -28,12 +30,15 @@ export default function SimulationControls({
 	onArraySizeChange,
 	simulationState,
 	setSimulationState,
+	children,
 }: SimulationControlsProps) {
+	const { isFullscreen, setIsFullscreen } = useFullscreen();
+
 	return (
-		<div className="flex flex-row gap-4">
+		<div className="flex flex-row gap-4 p-1">
 			<TooltipProvider>
 				<Tooltip>
-					<TooltipTrigger>
+					<TooltipTrigger asChild>
 						<Button
 							variant={"outline"}
 							onClick={() => {
@@ -53,7 +58,7 @@ export default function SimulationControls({
 					<TooltipContent>Start the simulation</TooltipContent>
 				</Tooltip>
 				<Tooltip>
-					<TooltipTrigger>
+					<TooltipTrigger asChild>
 						<Button
 							variant={"outline"}
 							onClick={() => {
@@ -67,7 +72,7 @@ export default function SimulationControls({
 					<TooltipContent>Pause the simulation</TooltipContent>
 				</Tooltip>
 				<Tooltip>
-					<TooltipTrigger>
+					<TooltipTrigger asChild>
 						<Button variant={"outline"} onClick={onRandomize} disabled={simulationState === "running" || simulationState === "paused"}>
 							<Dices className="h-5 w-5" />
 						</Button>
@@ -99,6 +104,14 @@ export default function SimulationControls({
 						className={simulationState === "running" || simulationState === "paused" ? "opacity-50 cursor-wait" : ""}
 					/>
 				</div>
+				<Button variant={"ghost"} onClick={() => setIsFullscreen(!isFullscreen)}>
+					{isFullscreen ? (
+						<Minimize2 className="h-5 w-5" />
+					) : (
+						<Maximize2 className="h-5 w-5" />
+					)}
+				</Button>
+				{children}
 			</TooltipProvider>
 		</div>
 	);

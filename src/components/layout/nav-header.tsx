@@ -5,7 +5,7 @@ import { Link } from "next-view-transitions";
 import { navigationLinks } from "@/lib/navigationLinks";
 import { BarChartBig } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { ModeToggle } from "../ui/dark-mode-toggle";
+import { ModeToggle } from "./dark-mode-toggle";
 
 export default function NavHeader({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname();
@@ -14,7 +14,7 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 		<div className="flex min-h-screen w-full flex-col">
 			<header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-md px-6 z-50">
 				<nav className="flex flex-row w-full justify-between">
-					<div className="font-medium flex flex-row items-center text-sm gap-6 gap-7">
+					<div className="font-medium flex flex-row items-center text-sm gap-7">
 						<Link href="#" className="flex items-center gap-2">
 							<BarChartBig className="h-6 w-6" />
 						</Link>

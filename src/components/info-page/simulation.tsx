@@ -1,4 +1,4 @@
-import { Bar, BarChart, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, XAxis, Cell, ResponsiveContainer } from "recharts";
 import {
 	Card,
 	CardContent,
@@ -19,9 +19,10 @@ export default function Simulation() {
 	const [data, setData] = useState(generateRandomArray(10, 1, 100));
 	const [initialData, setInitialData] = useState(
 		JSON.parse(JSON.stringify(data))
-	); /* Deep copy of data */
+	);
 	const [speed, setSpeed] = useState(50);
 	const speedRef = useRef(speed);
+	const dataRef = useRef(data);
 	const simulationStateRef = useRef(simulationState);
 
 	useEffect(() => {
@@ -29,9 +30,38 @@ export default function Simulation() {
 	}, [speed]);
 
 	useEffect(() => {
-		console.log("Simulation state changed to: ", simulationState);
+		dataRef.current = data;
+	}, [data]);
+
+	useEffect(() => {
 		simulationStateRef.current = simulationState;
 	}, [simulationState]);
+
+	async function highlightCells(
+		indices: number[],
+		time: number,
+		color: string
+	) {
+		indices.forEach((index) => {
+			data[index].fill = color;
+		});
+		setData([...data]);
+		await new Promise((r) => setTimeout(r, time));
+		dataRef.current = [...data];
+	}
+
+	async function waitForPause() {
+		if (simulationStateRef.current === "paused") {
+			await new Promise((resolve) => {
+				const checkPause = setInterval(() => {
+					if (simulationStateRef.current === "running") {
+						clearInterval(checkPause);
+						resolve(null);
+					}
+				}, 50);
+			});
+		}
+	}
 
 	/*
 		Run the simulation of the sorting algorithm.
@@ -39,43 +69,51 @@ export default function Simulation() {
 	async function handleStart() {
 		for (let i = 0; i < data.length; i++) {
 			for (let j = 0; j < data.length - i - 1; j++) {
-				if (simulationStateRef.current === "paused") {
-					await new Promise((resolve) => {
-						const checkPause = setInterval(() => {
-							if (simulationStateRef.current === "running") {
-								clearInterval(checkPause);
-								resolve(null);
-							}
-						}, 100);
-					});
-				}
+				// If the simulation is paused, wait for it to resume
+				await waitForPause();
+
+
+				// Highlight the cells being compared
+				const time = calculateSleepTime(speedRef.current);
+				await highlightCells(
+					[j, j + 1],
+					time,
+					"hsl(var(--accent-blue))"
+				);
+				// Compare the values and swap them if necessary
 				if (data[j].value > data[j + 1].value) {
 					const temp = data[j].value;
 					data[j].value = data[j + 1].value;
 					data[j + 1].value = temp;
-					setData([...data]);
 				}
-				await new Promise((resolve) => {
-					const time = calculateSleepTime(speedRef.current);
-					setTimeout(resolve, time);
-				});
+
+				// Reset the color of the cells
+				await highlightCells([j, j + 1], time, "hsl(var(--primary))");
 			}
 		}
+		// Highlight the sorted array
 		setSimulationState("finished");
 	}
+
 	/*
-			Reset the simulation to its initial state and stop the simulation.
-		*/
+	 * Reset the simulation to its initial state and stop the simulation.
+	 */
 	function handleReset() {
+		data.forEach((entry, index) => {
+			data[index].fill = "hsl(var(--primary))";
+		});
 		setData(JSON.parse(JSON.stringify(initialData)));
 		setInitialData(JSON.parse(JSON.stringify(initialData)));
 		setSimulationState("idle");
 	}
 
 	/*
-			Generate a new random array of the current size.
-		*/
+	 * Generate a new random array of the current size.
+	 */
 	function handleRandomize() {
+		data.forEach((entry, index) => {
+			data[index].fill = "hsl(var(--primary))";
+		});
 		const newData = generateRandomArray(data.length, 1, 100);
 		setData(newData);
 		setInitialData(JSON.parse(JSON.stringify(newData)));
@@ -83,8 +121,8 @@ export default function Simulation() {
 	}
 
 	/*
-			Generate a new random array of the new size.
-		*/
+	 * Generate a new random array of the new size.
+	 */
 	function handleArraySizeChange(value: number) {
 		const newData = generateRandomArray(value, 1, 100);
 		setData(newData);
@@ -117,15 +155,15 @@ export default function Simulation() {
 					<div className="mt-4 flex-grow">
 						<ResponsiveContainer width="100%" height="100%">
 							<BarChart data={data}>
-								<Bar
-									dataKey="value"
-									style={
-										{
-											fill: "hsl(var(--primary))",
-											opacity: 1,
-										} as React.CSSProperties
-									}
-								/>
+								<Bar dataKey="value">
+									{dataRef.current.map((entry, index) => (
+										<Cell
+											key={`cell-${index}`}
+											fill={entry.fill}
+										/>
+									))}
+								</Bar>
+								<XAxis dataKey="value" />
 							</BarChart>
 						</ResponsiveContainer>
 					</div>
