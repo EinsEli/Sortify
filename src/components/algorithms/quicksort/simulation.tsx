@@ -110,7 +110,6 @@ export default function Simulation() {
 			}
 			if (playAudioRef.current) {
 				generateSound(array[j].value * 10, 50);
-				generateSound(array[high].value * 10, 50);
 			}
 			await highlightCells([j, high], delayRef.current, "hsl(var(--primary))");
 			await highlightCells(
