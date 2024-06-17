@@ -28,4 +28,19 @@ export const navigationLinks = [
 			}
 		]
 	},
+	{
+		title: "Fun Algorithms",
+		subLinks: [
+			{
+				title: 'Stalin Sort',
+				url: '/stalinsort',
+				description: 'Stalin Sort is a simple algorithm which eliminates elements that are not in order.',
+			},
+			{
+				title: 'Bogo Sort',
+				url: '/borgosort',
+				description: 'Bogo Sort is a simple algorithm which shuffles the array until it is sorted.',
+			}
+		]
+	},
 ];

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Link } from "next-view-transitions";
-import { navigationLinks } from "@/lib/navigation-Links";
+import { navigationLinks } from "@/lib/navigation-links";
 import { BarChartBig } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./dark-mode-toggle";
@@ -30,6 +30,7 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 						<NavigationMenu>
 							<NavigationMenuList>
 								{navigationLinks.map((link) => {
+									console.log(link);
 									if (link.url != null) {
 										return (
 											<NavigationMenuItem
