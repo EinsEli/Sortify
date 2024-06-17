@@ -14,7 +14,7 @@ import { usePlayAudio } from "@/components/layout/context";
 import TimerDisplay, { TimerRef } from "@/components/info-page/timer";
 
 export type SimulationState = "idle" | "running" | "paused" | "finished";
-export type SimulationData = { array: number[] };
+export type SimulationData = { array: number[]; fill: string };
 
 export default function Simulation() {
 	const [simulationState, setSimulationState] =
@@ -60,45 +60,34 @@ export default function Simulation() {
 	/*
 		Run the simulation of the sorting algorithm.
 	 */
-	async function bubbleSort() {
+	async function bogoSort() {
 		timerRef.current?.start();
-		for (let i = 0; i < data.length; i++) {
-			for (let j = 0; j < data.length - i - 1; j++) {
-				// If the simulation is paused, wait for it to resume
-				if (simulationStateRef.current === "paused") {
-					await new Promise((resolve) => {
-						const checkPause = setInterval(() => {
-							if (simulationStateRef.current === "running") {
-								clearInterval(checkPause);
-								resolve(null);
-							}
-						}, 50);
-					});
-				}
-
-				// Highlight the cells being compared
-				const time = delayRef.current;
-				await highlightCells(
-					[j, j + 1],
-					time,
-					"hsl(var(--accent-blue))"
-				);
-
-				// Play a sound to indicate that the cells are being compared
-				if (playAudioRef.current) {
-					generateSound(data[j].value * 10, 50);
-					generateSound(data[j + 1].value * 10, 50);
-				}
-				// Compare the values and swap them if necessary
-				if (data[j].value > data[j + 1].value) {
-					const temp = data[j].value;
-					data[j].value = data[j + 1].value;
-					data[j + 1].value = temp;
-				}
-
-				// Reset the color of the cells
-				await highlightCells([j, j + 1], time, "hsl(var(--primary))");
+		while (!isSorted(dataRef.current.map((d) => d.value))) {
+			if (simulationStateRef.current === "paused") {
+				await new Promise((resolve) => {
+					const checkPause = setInterval(() => {
+						if (simulationStateRef.current === "running") {
+							clearInterval(checkPause);
+							resolve(null);
+						}
+					}, 50);
+				});
 			}
+			const time = delayRef.current;
+			const shuffled = shuffleArray(dataRef.current.map((d) => d.value));
+			if (playAudioRef.current)
+				await generateSound(shuffled[0] * 10, 100);
+
+
+			for (let i = 0; i < dataRef.current.length; i++) {
+				dataRef.current[i].value = shuffled[i];
+			}
+			setData([...dataRef.current]);
+			await highlightCells(
+				dataRef.current.map((_, i) => i),
+				time,
+				"hsl(var(--accent-blue))"
+			);
 		}
 		timerRef.current?.pause();
 		for (let i = 0; i < data.length; i++) {
@@ -108,10 +97,26 @@ export default function Simulation() {
 		}
 	}
 
+	function isSorted(arr: number[]) {
+		for (let i = 1; i < arr.length; i++) {
+			if (arr[i] < arr[i - 1]) return false;
+		}
+		return true;
+	}
+
+	function shuffleArray(arr: number[]) {
+		const newArr = [...arr];
+		for (let i = newArr.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+		}
+		return newArr;
+	}
+
 	return (
 		<div className="w-full h-full flex flex-col gap-4">
 			<SimulationControls
-				onStart={bubbleSort}
+				onStart={bogoSort}
 				simulationState={simulationState}
 				setSimulationState={setSimulationState}
 				data={data}
@@ -122,9 +127,9 @@ export default function Simulation() {
 			/>
 			<Card className="w-full h-full flex flex-col">
 				<CardHeader className="flex flex-col pb-2">
-				<CardTitle className="text-xl font-semibold flex flex-row justify-between">
+					<CardTitle className="text-xl font-semibold flex flex-row justify-between">
 						Simulation
-						<TimerDisplay ref={timerRef}/>
+						<TimerDisplay ref={timerRef} />
 					</CardTitle>
 					<CardDescription>
 						Use the controls above to start, pause, or reset the
