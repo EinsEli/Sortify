@@ -96,3 +96,11 @@
 	background-color: transparent;
 	border-radius: 0px;
 }
+
+.hide-scrollbar {
+	scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+	display: none;
+}
