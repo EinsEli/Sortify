@@ -60,58 +60,78 @@ export default function Simulation() {
 	/*
 		Run the simulation of the sorting algorithm.
 	 */
-	async function bubbleSort() {
+	async function mergeSort() {
 		timerRef.current?.start();
-		for (let i = 0; i < data.length; i++) {
-			for (let j = 0; j < data.length - i - 1; j++) {
-				// If the simulation is paused, wait for it to resume
-				if (simulationStateRef.current === "paused") {
-					await new Promise((resolve) => {
-						const checkPause = setInterval(() => {
-							if (simulationStateRef.current === "running") {
-								clearInterval(checkPause);
-								resolve(null);
-							}
-						}, 50);
-					});
-				}
-
-				// Highlight the cells being compared
-				const time = delayRef.current;
-				await highlightCells(
-					[j, j + 1],
-					time,
-					"hsl(var(--accent-blue))"
-				);
-
-				// Play a sound to indicate that the cells are being compared
-				if (playAudioRef.current) {
-					generateSound(data[j].value * 10, 50);
-					generateSound(data[j + 1].value * 10, 50);
-				}
-				// Compare the values and swap them if necessary
-				if (data[j].value > data[j + 1].value) {
-					const temp = data[j].value;
-					data[j].value = data[j + 1].value;
-					data[j + 1].value = temp;
-				}
-
-				// Reset the color of the cells
-				await highlightCells([j, j + 1], time, "hsl(var(--primary))");
-			}
-		}
+		await mergeSortHelper(0, data.length - 1);
 		timerRef.current?.pause();
 		for (let i = 0; i < data.length; i++) {
 			if (playAudioRef.current)
 				await generateSound(data[i].value * 10, 100);
-			await highlightCells([i], 20, "hsl(var(--accent-green))");
+			await highlightCells([i], 10, "hsl(var(--accent-green))");
 		}
+	}
+
+	async function mergeSortHelper(start: number, end: number) {
+		if (start >= end) return;
+		const mid = Math.floor((start + end) / 2);
+		await mergeSortHelper(start, mid);
+		await mergeSortHelper(mid + 1, end);
+		await merge(start, mid, end);
+	}
+
+	async function merge(start: number, mid: number, end: number) {
+		const left = data.slice(start, mid + 1);
+		const right = data.slice(mid + 1, end + 1);
+		let i = 0,
+			j = 0,
+			k = start;
+
+		while (i < left.length && j < right.length) {
+			if (left[i].value <= right[j].value) {
+				data[k] = left[i];
+				i++;
+			} else {
+				data[k] = right[j];
+				j++;
+			}
+			if (playAudioRef.current)
+				await generateSound(data[k].value * 10, 100);
+			k++;
+		}
+
+		while (i < left.length) {
+			data[k] = left[i];
+			i++;
+			if (playAudioRef.current)
+				await generateSound(data[k].value * 10, 100);
+			k++;
+		}
+
+		while (j < right.length) {
+			data[k] = right[j];
+			j++;
+			if (playAudioRef.current)
+				await generateSound(data[k].value * 10, 100);
+			k++;
+		}
+
+		await highlightCells(
+			Array.from({ length: end - start + 1 }, (_, i) => start + i),
+			delayRef.current,
+			"hsl(var(--accent-blue))"
+		);
+		await new Promise((r) => setTimeout(r, delayRef.current));
+		await highlightCells(
+			Array.from({ length: end - start + 1 }, (_, i) => start + i),
+			delayRef.current,
+			"hsl(var(--primary))"
+		);
 	}
 
 	return (
 		<div className="w-full h-full flex flex-col gap-4">
 			<SimulationControls
-				onStart={bubbleSort}
+				onStart={mergeSort}
 				simulationState={simulationState}
 				setSimulationState={setSimulationState}
 				data={data}
@@ -122,9 +142,9 @@ export default function Simulation() {
 			/>
 			<Card className="w-full h-full flex flex-col">
 				<CardHeader className="flex flex-col pb-2">
-				<CardTitle className="text-xl font-semibold flex flex-row justify-between">
+					<CardTitle className="text-xl font-semibold flex flex-row justify-between">
 						Simulation
-						<TimerDisplay ref={timerRef}/>
+						<TimerDisplay ref={timerRef} />
 					</CardTitle>
 					<CardDescription>
 						Use the controls above to start, pause, or reset the
@@ -132,7 +152,7 @@ export default function Simulation() {
 						<br />
 						Elements highlighted in{" "}
 						<b className="text-blue-500">blue</b> are getting
-						compared.
+						merged.
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="flex-grow flex flex-col">
