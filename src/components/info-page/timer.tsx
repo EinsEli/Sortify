@@ -1,5 +1,12 @@
 import { useEffect, useState, useRef, useImperativeHandle, forwardRef } from 'react';
 
+export type TimerRef = {
+  start: () => void;
+  pause: () => void;
+  stop: () => void;
+};
+
+
 const TimerDisplay = forwardRef((_props, ref) => {
   const [startTime, setStartTime] = useState<number | null>(null);
   const [time, setTime] = useState(0);
