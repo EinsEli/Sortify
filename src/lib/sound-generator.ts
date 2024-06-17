@@ -16,7 +16,7 @@ export function generateSound(frequency: number, duration: number) {
   }
 
   const oscillator = audioContext.createOscillator();
-  oscillator.type = "triangle"; // "sine", "square", "sawtooth", "triangle"
+  oscillator.type = "sine"; // "sine", "square", "sawtooth", "triangle"
   oscillator.frequency.value = frequency;
 
   const gainNode = audioContext.createGain();

@@ -11,6 +11,7 @@ import Complexity from "@/components/algorithms/mergesort/complexity";
 import Code from "@/components/algorithms/mergesort/code";
 import Simulation from "@/components/algorithms/mergesort/simulation";
 import { useFullscreen } from "@/components/layout/context";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 export default function Page() {
 	const { isFullscreen } = useFullscreen();
@@ -31,26 +32,25 @@ export default function Page() {
 				<ResizablePanel
 					minSize={25}
 					defaultSize={35}
-					className={isFullscreen ? "hidden" : ""}
+					className={`!overflow-y-scroll hide-scrollbar ${
+						isFullscreen ? "hidden" : ""
+					}`}
 				>
 					{/* Side Bar */}
-					<div className="col-span-1 flex flex-col gap-10">
+					<ScrollArea className="col-span-1 flex flex-col gap-10 ">
 						{/* Description */}
 						<Description />
 						{/* Complexity */}
 						<Complexity />
 						{/* Code */}
 						<Code />
-					</div>
+					</ScrollArea>
 				</ResizablePanel>
 				<ResizableHandle
 					withHandle
 					className={isFullscreen ? "hidden" : ""}
 				/>
-				<ResizablePanel
-					minSize={25}
-					defaultSize={65}
-				>
+				<ResizablePanel minSize={25} defaultSize={65}>
 					{/* Animation */}
 					<Simulation />
 				</ResizablePanel>
