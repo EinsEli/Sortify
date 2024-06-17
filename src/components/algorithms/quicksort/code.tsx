@@ -6,7 +6,7 @@ export default function Code() {
 			<div className="flex flex-col gap-2">
 				<div className="flex flex-row gap-2 items-center">
 					<h3 className="text-lg font-semibold">Python Code</h3>{" "}
-					<span className="text-sm text-gray-500">quickSort()</span>
+					<span className="text-sm text-gray-500 font-mono">quickSort()</span>
 				</div>
 				<CodeBlock language="python">
 					{`def quickSort(array, low, high):
@@ -22,7 +22,7 @@ export default function Code() {
 			<div className="flex flex-col gap-2">
 				<div className="flex flex-row gap-2 items-center">
 					<h3 className="text-lg font-semibold">Helper Function</h3>{" "}
-					<span className="text-sm text-gray-500">partition()</span>
+					<span className="text-sm text-gray-500 font-mono">partition()</span>
 				</div>
 				<CodeBlock language="python">
 					{`def partition(array, low, high):

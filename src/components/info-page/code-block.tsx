@@ -8,18 +8,18 @@ import 'prismjs/themes/prism-okaidia.css';
 import React from 'react';
 import { Card, CardContent } from '../ui/card';
 
-export default function CodeBlock({ language, children }: { language: string, children: React.ReactNode }) {
-	useEffect(() => {
-		Prism.highlightAll();
-	}, []);
+export default function CodeBlock({ language, children, ...props }: { language: string, children: React.ReactNode, className?: string }) {
+    useEffect(() => {
+        Prism.highlightAll();
+    }, []);
 
-	return (
-		<Card className='bg-neutral-950'>
-			<CardContent className='p-1'>
-				<pre className={`language-${language} !m-0 !w-full !bg-neutral-950`} >
-					<code>{children}</code>
-				</pre>
-			</CardContent>
-		</Card>
-	);
+    return (
+        <Card className={`bg-neutral-950 ${props.className}`} {...props}>
+            <CardContent className='p-1'>
+                <pre className={`language-${language} !m-0 !w-full !bg-neutral-950 max-h-80 dark-scrollbar`} suppressHydrationWarning>
+                    <code suppressHydrationWarning>{children}</code>
+                </pre>
+            </CardContent>
+        </Card>
+    );
 }

@@ -82,3 +82,17 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+
+.dark-scrollbar {
+	scrollbar-color: #fafafa transparent;
+}
+
+.dark-scrollbar::-webkit-scrollbar {
+	width: 8px;
+}
+
+.dark-scrollbar::-webkit-scrollbar-thumb {
+	background-color: transparent;
+	border-radius: 0px;
+}
