@@ -21,10 +21,14 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 
 	return (
 		<div className="flex min-h-screen w-full flex-col">
-			<header className={`sticky top-0 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-md px-6 z-50 ${isFullscreen ? "hidden" : "visible"}`}>
+			<header
+				className={`sticky top-0 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-md px-6 z-50 ${
+					isFullscreen ? "hidden" : "visible"
+				}`}
+			>
 				<nav className="flex flex-row w-full justify-between">
 					<div className="font-medium flex flex-row items-center text-sm gap-7">
-						<Link href="#" className="flex items-center gap-2">
+						<Link href="/" className="flex items-center gap-2">
 							<BarChartBig className="h-6 w-6" />
 						</Link>
 						<NavigationMenu>
@@ -54,9 +58,18 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 												key={link.title}
 											>
 												{/* "text-muted-foreground"> */}
-												<NavigationMenuTrigger className={
-													`transition-colors ${link.subLinks.map(subLink => subLink.url).includes(pathname) ? "font-semibold text-foreground" : "text-muted-foreground"}`
-												}>
+												<NavigationMenuTrigger
+													className={`transition-colors ${
+														link.subLinks
+															.map(
+																(subLink) =>
+																	subLink.url
+															)
+															.includes(pathname)
+															? "font-semibold text-foreground"
+															: "text-muted-foreground"
+													}`}
+												>
 													{link.title}
 												</NavigationMenuTrigger>
 												<NavigationMenuContent>
@@ -103,7 +116,12 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 					<ModeToggle />
 				</nav>
 			</header>
-			<main className={`absolute h-screen flex-col flex bg-muted/40 gap-8 p-8 w-screen ${isFullscreen ? "" : "pt-24"}`}>
+			<main
+				className={`absolute h-screen flex-col flex bg-muted/40 gap-8 p-8 w-screen ${
+					isFullscreen ? "" : "pt-24"
+				}`}
+			>
+				{/* <ViewTransition>{children}</ViewTransition> */}
 				{children}
 			</main>
 		</div>
