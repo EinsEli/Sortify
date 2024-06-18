@@ -4,7 +4,7 @@ export const navigationLinks = [
 		url: '/overview',
 	},
 	{
-		title: "Linear Algorithms",
+		title: "Comparison-based Algorithms",
 		subLinks: [
 			{
 				title: 'Bubble Sort',
