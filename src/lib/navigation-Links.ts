@@ -38,7 +38,7 @@ export const navigationLinks = [
 			},
 			{
 				title: 'Bogo Sort',
-				url: '/borgosort',
+				url: '/bogosort',
 				description: 'Bogo Sort is a simple algorithm which shuffles the array until it is sorted.',
 			}
 		]

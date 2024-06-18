@@ -9,7 +9,7 @@ import {
 import { generateRandomArray } from "@/lib/simulation";
 import SimulationControls from "@/components/info-page/simulation-controls";
 import { useState, useRef, useEffect } from "react";
-import { generateSound } from "@/lib/sound-generator";
+import { generateSound } from "@/lib/sound-manager";
 import { usePlayAudio } from "@/components/layout/context";
 import TimerDisplay, { TimerRef } from "@/components/info-page/timer";
 

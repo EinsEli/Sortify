@@ -9,7 +9,7 @@ import {
 import { generateRandomArray } from "@/lib/simulation";
 import SimulationControls from "@/components/info-page/simulation-controls";
 import { useState, useRef, useEffect } from "react";
-import { generateSound } from "@/lib/sound-generator";
+import { generateSound } from "@/lib/sound-manager";
 import { usePlayAudio } from "@/components/layout/context";
 import TimerDisplay, { TimerRef } from "@/components/info-page/timer";
 
@@ -87,6 +87,17 @@ export default function Simulation() {
 			k = start;
 
 		while (i < left.length && j < right.length) {
+			// If the simulation is paused, wait for it to resume
+			if (simulationStateRef.current === "paused") {
+				await new Promise((resolve) => {
+					const checkPause = setInterval(() => {
+						if (simulationStateRef.current === "running") {
+							clearInterval(checkPause);
+							resolve(null);
+						}
+					}, 50);
+				});
+			}
 			if (left[i].value <= right[j].value) {
 				data[k] = left[i];
 				i++;
@@ -100,6 +111,17 @@ export default function Simulation() {
 		}
 
 		while (i < left.length) {
+			// If the simulation is paused, wait for it to resume
+			if (simulationStateRef.current === "paused") {
+				await new Promise((resolve) => {
+					const checkPause = setInterval(() => {
+						if (simulationStateRef.current === "running") {
+							clearInterval(checkPause);
+							resolve(null);
+						}
+					}, 50);
+				});
+			}
 			data[k] = left[i];
 			i++;
 			if (playAudioRef.current)
@@ -108,6 +130,17 @@ export default function Simulation() {
 		}
 
 		while (j < right.length) {
+			// If the simulation is paused, wait for it to resume
+			if (simulationStateRef.current === "paused") {
+				await new Promise((resolve) => {
+					const checkPause = setInterval(() => {
+						if (simulationStateRef.current === "running") {
+							clearInterval(checkPause);
+							resolve(null);
+						}
+					}, 50);
+				});
+			}
 			data[k] = right[j];
 			j++;
 			if (playAudioRef.current)

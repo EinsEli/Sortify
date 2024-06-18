@@ -1,13 +1,12 @@
 export default function Description() {
 	return (
 		<section className="flex flex-col gap-1">
-			<h1 className="text-xl font-semibold">Bubble Sort</h1>
+			<h1 className="text-xl font-semibold">Stalin Sort</h1>
 			<p className="text-md text-muted-foreground">
-				Bubble Sort is a simple sorting algorithm that repeatedly steps
-				through a list, compares adjacent elements, and swaps them if
-				they are in the wrong order. It can be optimized by stopping the
-				algorithm if the inner loop didn&apos;t cause any swap, which
-				means the list is already sorted.
+				Sort an array by removing elements that are against your
+				ideology, until the array is sorted. Political enemies are
+				&quot;removed&quot; from the array. Political enemies are elements that are
+				not in order.
 			</p>
 		</section>
 	);

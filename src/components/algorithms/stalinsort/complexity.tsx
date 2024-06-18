@@ -6,8 +6,8 @@ export default function Complexity() {
 			<h3 className="text-lg font-semibold">Time Complexity</h3>
 			<ComplexityDisplay
 				best="\Omega (n)"
-				average="\Theta (n^2)"
-				worst="O(n^2)"
+				average="\Theta (n)"
+				worst="O(n)"
 			/>
 		</section>
 	);

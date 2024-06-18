@@ -9,7 +9,7 @@ import {
 import { generateRandomArray } from "@/lib/simulation";
 import SimulationControls from "@/components/info-page/simulation-controls";
 import { useState, useRef, useEffect } from "react";
-import { generateSound } from "@/lib/sound-generator";
+import { generateSound, playSound } from "@/lib/sound-manager";
 import { usePlayAudio } from "@/components/layout/context";
 import TimerDisplay, { TimerRef } from "@/components/info-page/timer";
 
@@ -60,46 +60,33 @@ export default function Simulation() {
 	/*
 		Run the simulation of the sorting algorithm.
 	 */
-	async function bubbleSort() {
+	async function stalinSort() {
 		timerRef.current?.start();
 		for (let i = 0; i < data.length; i++) {
-			for (let j = 0; j < data.length - i - 1; j++) {
-				// If the simulation is paused, wait for it to resume
-				if (simulationStateRef.current === "paused") {
-					await new Promise((resolve) => {
-						const checkPause = setInterval(() => {
-							if (simulationStateRef.current === "running") {
-								clearInterval(checkPause);
-								resolve(null);
-							}
-						}, 50);
-					});
-				}
-
-				// Highlight the cells being compared
-				const time = delayRef.current;
-				await highlightCells(
-					[j, j + 1],
-					time,
-					"hsl(var(--accent-blue))"
-				);
-
-				// Play a sound to indicate that the cells are being compared
-				if (playAudioRef.current) {
-					generateSound(data[j].value * 10, 50);
-					generateSound(data[j + 1].value * 10, 50);
-				}
-				// Compare the values and swap them if necessary
-				if (data[j].value > data[j + 1].value) {
-					const temp = data[j].value;
-					data[j].value = data[j + 1].value;
-					data[j + 1].value = temp;
-				}
-
-				// Reset the color of the cells
-				await highlightCells([j, j + 1], time, "hsl(var(--primary))");
+			if (simulationStateRef.current === "paused") {
+				await new Promise((resolve) => {
+					const checkPause = setInterval(() => {
+						if (simulationStateRef.current === "running") {
+							clearInterval(checkPause);
+							resolve(null);
+						}
+					}, 50);
+				});
 			}
+			// Highlight the cell being compared
+			const time = delayRef.current;
+			await highlightCells([i], time, "hsl(var(--accent-blue))");
+			// Compare the value and remove it if necessary
+			if (i > 0 && data[i].value < data[i - 1].value) {
+				data.splice(i, 1);
+				i--;
+				// if (playAudioRef.current && (i+1 < data.length)) generateSound(data[i+1].value * 10, 100);
+				if (playAudioRef.current) playSound("/gunshot.mp3");
+			}
+			// Reset the color of the cell
+			await highlightCells([i], time, "hsl(var(--primary))");
 		}
+
 		timerRef.current?.pause();
 		for (let i = 0; i < data.length; i++) {
 			if (playAudioRef.current)
@@ -111,7 +98,7 @@ export default function Simulation() {
 	return (
 		<div className="w-full h-full flex flex-col gap-4">
 			<SimulationControls
-				onStart={bubbleSort}
+				onStart={stalinSort}
 				simulationState={simulationState}
 				setSimulationState={setSimulationState}
 				data={data}
@@ -122,9 +109,9 @@ export default function Simulation() {
 			/>
 			<Card className="w-full h-full flex flex-col">
 				<CardHeader className="flex flex-col pb-2">
-				<CardTitle className="text-xl font-semibold flex flex-row justify-between">
+					<CardTitle className="text-xl font-semibold flex flex-row justify-between">
 						Simulation
-						<TimerDisplay ref={timerRef}/>
+						<TimerDisplay ref={timerRef} />
 					</CardTitle>
 					<CardDescription>
 						Use the controls above to start, pause, or reset the

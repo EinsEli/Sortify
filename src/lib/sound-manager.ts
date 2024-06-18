@@ -30,3 +30,13 @@ export function generateSound(frequency: number, duration: number) {
     oscillator.stop();
   }, duration);
 }
+
+export function playSound(url: string) {
+  if (!audioContext) {
+    console.error('AudioContext is not supported in this environment');
+    return;
+  }
+
+  const audio = new Audio(url);
+  audio.play();
+}
