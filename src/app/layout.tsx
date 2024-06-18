@@ -8,7 +8,7 @@ import { ContextProvider } from "@/components/layout/context";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "Sortutor",
+	title: "Sortify",
 	description: "A visual guide to sorting algorithms",
 };
 
