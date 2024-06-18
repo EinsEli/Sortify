@@ -30,7 +30,6 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 						<NavigationMenu>
 							<NavigationMenuList>
 								{navigationLinks.map((link) => {
-									console.log(link);
 									if (link.url != null) {
 										return (
 											<NavigationMenuItem
