@@ -40,7 +40,7 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 													href="/overview"
 													className={`text-muted-foreground transition-colors hover:text-foreground ${
 														link.url == pathname
-															? "!text-black font-semibold dark:!text-white"
+															? "font-semibold text-foreground"
 															: ""
 													}`}
 												>
@@ -53,7 +53,10 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 											<NavigationMenuItem
 												key={link.title}
 											>
-												<NavigationMenuTrigger>
+												{/* "text-muted-foreground"> */}
+												<NavigationMenuTrigger className={
+													`transition-colors ${link.subLinks.map(subLink => subLink.url).includes(pathname) ? "font-semibold text-foreground" : "text-muted-foreground"}`
+												}>
 													{link.title}
 												</NavigationMenuTrigger>
 												<NavigationMenuContent>
@@ -72,7 +75,7 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 																		href={
 																			subLink.url
 																		}
-																		className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+																		className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-muted-foreground"
 																	>
 																		<h1 className="text-md font-semibold">
 																			{
