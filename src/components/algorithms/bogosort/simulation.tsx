@@ -61,7 +61,6 @@ export default function Simulation() {
 		Run the simulation of the sorting algorithm.
 	 */
 	async function bogoSort() {
-		timerRef.current?.start();
 		while (!isSorted(dataRef.current.map((d) => d.value))) {
 			if (simulationStateRef.current === "paused") {
 				await new Promise((resolve) => {

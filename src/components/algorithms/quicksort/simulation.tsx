@@ -61,7 +61,6 @@ export default function Simulation() {
 		Run the simulation of the sorting algorithm.
 	 */
 	async function quickSort() {
-		timerRef.current.start();
 		await quickSortHelper(data, 0, data.length - 1);
 		timerRef.current.pause();
 		for (let i = 0; i < data.length; i++) {

@@ -61,7 +61,6 @@ export default function Simulation() {
 		Run the simulation of the sorting algorithm.
 	 */
 	async function bubbleSort() {
-		timerRef.current?.start();
 		for (let i = 0; i < data.length; i++) {
 			for (let j = 0; j < data.length - i - 1; j++) {
 				// If the simulation is paused, wait for it to resume

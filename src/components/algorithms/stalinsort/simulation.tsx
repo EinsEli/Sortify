@@ -61,7 +61,6 @@ export default function Simulation() {
 		Run the simulation of the sorting algorithm.
 	 */
 	async function stalinSort() {
-		timerRef.current?.start();
 		for (let i = 0; i < data.length; i++) {
 			if (simulationStateRef.current === "paused") {
 				await new Promise((resolve) => {

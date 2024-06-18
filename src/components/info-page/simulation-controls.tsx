@@ -112,8 +112,14 @@ export default function SimulationControls({
 		setDelay(calculateSleepTime(value[0]));
 	}
 
+	function handlePause() {
+		setSimulationState("paused");
+		timerRef?.current.pause();
+	}
+
 	async function handleStart() {
 		setSimulationState("running");
+		timerRef?.current.start()
 		if (simulationStateRef.current === "idle") {
 			await onStart();
 			setSimulationState("finished");
@@ -142,9 +148,7 @@ export default function SimulationControls({
 					<TooltipTrigger asChild>
 						<Button
 							variant={"outline"}
-							onClick={() => {
-								setSimulationState("paused");
-							}}
+							onClick={handlePause}
 							disabled={simulationState !== "running"}
 						>
 							<Pause className="h-5 w-5" />
