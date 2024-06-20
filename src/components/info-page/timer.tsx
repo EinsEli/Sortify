@@ -53,7 +53,7 @@ const TimerDisplay = forwardRef((_props, ref) => {
 
   return (
     <div className="flex justify-center items-center">
-      <span className="text-xl font-mono text-muted-foreground dark:text-muted font-normal">
+      <span className="text-xl font-mono text-muted-foreground/40 font-normal">
         {String(Math.floor(time / 60000)).padStart(2, "0")}:
         {String(Math.floor((time / 1000) % 60)).padStart(2, "0")}.
         {String(time % 1000).padStart(3, "0")}
