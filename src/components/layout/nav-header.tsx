@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { navigationLinks } from "@/lib/navigation-links";
 import { BarChartBig } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -121,7 +121,7 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 					isFullscreen ? "" : "pt-24"
 				}`}
 			>
-				{/* <ViewTransition>{children}</ViewTransition> */}
+				{/* <ViewTransitions>{children}</ViewTransitions> */}
 				{children}
 			</main>
 		</div>
