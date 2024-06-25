@@ -46,7 +46,7 @@ export default function Page() {
 													<CardContent className="p-0 pb-6 rounded-md">
 														<div className="relative w-full h-56">
 															<Image
-																src="https://uploads.dailydot.com/2018/10/olli-the-polite-cat.jpg?auto=compress&fm=pjpg"
+																src="https://placehold.co/600x400/png"
 																alt={
 																	subLink.title
 																}
