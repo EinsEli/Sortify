@@ -1,18 +1,21 @@
 <div align="center" >
-	<a href="https://www.karlsruhe.dhbw.de" style="text-decoration: none;">
+	<a href="https://www.karlsruhe.dhbw.de">
 		<picture>
 			<source height="125px" media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/TINF23B6/.github/main/profile/assets/icon_dark.svg">
 			<img height="125px" src="https://raw.githubusercontent.com/TINF23B6/.github/main/profile/assets/icon_light.svg">
 		</picture>
 	</a>
 	<img height="125px" src="https://gw.alipayobjects.com/zos/kitchen/qJ3l3EPsdW/split.svg">
-	<a href="https://github.com/EinsEli/Sortify">
-		<img height="125px" src="https://raw.githubusercontent.com/EinsEli/Sortify/main/docs/logo.svg">
-	</a>
+    <a href="https://github.com/EinsEli/Sortify">
+    	<picture>
+    		<source height="125px" media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/EinsEli/Sortify/main/public/logo_dark.svg">
+    		<img height="125px" src="https://raw.githubusercontent.com/EinsEli/Sortify/main/public/logo_light.svg">
+    	</picture>
+    </a>
+
 <h1>Sortify</h1>
 <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png" />
 </div>
-
 
 ### 🚀 What is this repository?
 
