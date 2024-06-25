@@ -4,8 +4,8 @@
 			<source height="125px" media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/TINF23B6/.github/main/profile/assets/icon_dark.svg">
 			<img height="125px" src="https://raw.githubusercontent.com/TINF23B6/.github/main/profile/assets/icon_light.svg">
 		</picture>
-		<img height="125px" src="https://gw.alipayobjects.com/zos/kitchen/qJ3l3EPsdW/split.svg">
 	</a>
+	<img height="125px" src="https://gw.alipayobjects.com/zos/kitchen/qJ3l3EPsdW/split.svg">
 	<a href="https://github.com/EinsEli/Sortify">
 		<img height="125px" src="https://raw.githubusercontent.com/EinsEli/Sortify/main/docs/logo.svg">
 	</a>
