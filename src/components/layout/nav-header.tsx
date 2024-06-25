@@ -121,7 +121,6 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 					isFullscreen ? "" : "pt-24"
 				}`}
 			>
-				{/* <ViewTransitions>{children}</ViewTransitions> */}
 				{children}
 			</main>
 		</div>
