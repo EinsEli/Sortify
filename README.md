@@ -19,7 +19,8 @@
 
 ### 🚀 What is this repository?
 
-This repository contains Sortify, a web app for displaying various sorting algorithms. Sortify was created as a project in the module "Theoretische Informatik 2" at DHBW Karlsruhe.
+This repository contains Sortify, a web app for displaying various sorting algorithms.  
+Sortify was created as a project in the module "Theoretische Informatik 2" at DHBW Karlsruhe.
 
 ### 📘 How to Install?
 
