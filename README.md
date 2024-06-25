@@ -29,3 +29,8 @@ This repository contains Sortify, a web app for displaying various sorting algor
 2. Clone the repository `git clone https://github.com/EinsEli/Sortify.git`
 3. Run `npm install` in the root directory
 4. Run `npm run dev` to start the development server
+
+#### 🖼️ Screenshots
+
+![Screenshot of BubbleSort](https://raw.githubusercontent.com/EinsEli/Sortify/main/public/screenshot_bubblesort.png)
+![Screenshot of QuickSort](https://raw.githubusercontent.com/EinsEli/Sortify/main/public/screenshot_quicksort.png)
