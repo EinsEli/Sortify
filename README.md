@@ -16,10 +16,14 @@
 	<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/line.png" />
 </div>
 
+<br/>
+  
 ### 🚀 What is this repository?
 
 This repository contains Sortify, a web app for displaying various sorting algorithms.  
 Sortify was created as a project in the module "Theoretische Informatik 2" at DHBW Karlsruhe.
+
+<br/>
 
 ### 📘 How to Install?
 
@@ -30,7 +34,9 @@ Sortify was created as a project in the module "Theoretische Informatik 2" at DH
 3. Run `npm install` in the root directory
 4. Run `npm run dev` to start the development server
 
-#### 🖼️ Screenshots
+<br/>
+
+### 🖼️ Screenshots
 
 ![Screenshot of BubbleSort](https://raw.githubusercontent.com/EinsEli/Sortify/main/public/screenshot_bubblesort.png)
 ![Screenshot of QuickSort](https://raw.githubusercontent.com/EinsEli/Sortify/main/public/screenshot_quicksort.png)
