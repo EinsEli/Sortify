@@ -42,10 +42,10 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 											>
 												<Link
 													href="/overview"
-													className={`text-muted-foreground transition-colors hover:text-foreground ${
+													className={`transition-colors hover:text-foreground ${
 														link.url == pathname
 															? "font-semibold text-foreground"
-															: ""
+															: "text-muted-foreground"
 													}`}
 												>
 													{link.title}
