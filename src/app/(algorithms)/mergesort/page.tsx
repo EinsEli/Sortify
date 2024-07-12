@@ -50,7 +50,7 @@ export default function Page() {
 					withHandle
 					className={isFullscreen ? "hidden" : ""}
 				/>
-				<ResizablePanel minSize={25} defaultSize={65}>
+				<ResizablePanel minSize={30} defaultSize={65}>
 					{/* Animation */}
 					<Simulation />
 				</ResizablePanel>

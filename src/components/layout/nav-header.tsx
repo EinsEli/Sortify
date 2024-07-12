@@ -3,7 +3,6 @@
 import React from "react";
 import Link from "next/link";
 import { navigationLinks } from "@/lib/navigation-links";
-import { BarChartBig } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./dark-mode-toggle";
 import {
@@ -14,6 +13,7 @@ import {
 	NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { useFullscreen } from "./context";
+import Logo from "../ui/logo";
 
 export default function NavHeader({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname();
@@ -22,15 +22,13 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 	return (
 		<div className="flex min-h-screen w-full flex-col">
 			<header
-				className={`sticky top-0 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-md px-6 z-50 ${
-					isFullscreen ? "hidden" : "visible"
+				className={`sticky top-0 flex h-16 items-center gap-4 transition-all duration-300 ease-out border-b bg-background/80 backdrop-blur-md px-6 z-50 ${
+					isFullscreen ? "opacity-0 -translate-y-16" : "opacity-100 translate-y-0"
 				}`}
 			>
 				<nav className="flex flex-row w-full justify-between">
 					<div className="font-medium flex flex-row items-center text-sm gap-7">
-						<Link href="/" className="flex items-center gap-2">
-							<BarChartBig className="h-6 w-6" />
-						</Link>
+							<Logo />
 						<NavigationMenu>
 							<NavigationMenuList>
 								{navigationLinks.map((link) => {

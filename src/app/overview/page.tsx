@@ -42,7 +42,7 @@ export default function Page() {
 												key={subLink.url}
 												href={subLink.url}
 											>
-												<Card className="hover:shadow-xl transition-shadow duration-500 cursor-pointer min-h-42 flex items-center justify-center flex-col">
+												<Card className="hover:bg-muted transition-all duration-250 cursor-pointer min-h-42 flex items-center justify-center flex-col">
 													<CardContent className="p-0 pb-6 rounded-md">
 														{/* <div className="relative w-full h-56">
 															<Image

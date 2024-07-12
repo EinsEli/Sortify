@@ -119,7 +119,7 @@ export default function SimulationControls({
 
 	async function handleStart() {
 		setSimulationState("running");
-		timerRef?.current.start()
+		timerRef?.current.start();
 		if (simulationStateRef.current === "idle") {
 			await onStart();
 			setSimulationState("finished");
@@ -127,7 +127,7 @@ export default function SimulationControls({
 	}
 
 	return (
-		<div className="flex flex-row gap-4 p-1">
+		<div className="flex flex-row gap-4 p-1 flex-wrap">
 			<TooltipProvider>
 				<Tooltip>
 					<TooltipTrigger asChild>
@@ -182,66 +182,84 @@ export default function SimulationControls({
 				>
 					Reset to initial array
 				</Button>
-				<div className="flex flex-col gap-2 w-full">
-					<Label className="w-full">
-						Simulation Speed:{" "}
-						<b className="text-muted-foreground font-normal">
-							{delay / 1000} Seconds
-						</b>
-					</Label>
-					<Slider
-						min={0}
-						max={100}
-						step={1}
-						defaultValue={[60]}
-						onValueChange={handleSpeedChange}
-					/>
+				<div className="flex flex-row min-w-56 gap-4">
+					<div className="flex flex-col gap-2 w-full">
+						<Label className="w-44 flex flex-row gap-1">
+							Simulation Speed:{" "}
+							<b className="text-muted-foreground font-mono">
+								{delay / 1000}s
+							</b>
+						</Label>
+						<Slider
+							min={0}
+							max={100}
+							step={1}
+							defaultValue={[60]}
+							onValueChange={handleSpeedChange}
+						/>
+					</div>
+					<div className="flex flex-col gap-2 w-full">
+						<Label className="w-40 flex flex-row gap-1">
+							Array Size:{" "}
+							<b className="text-muted-foreground font-mono">
+								{arraySize}
+							</b>
+						</Label>
+						<Slider
+							min={3}
+							max={250}
+							step={1}
+							defaultValue={[arraySize]}
+							onValueChange={handleArraySizeChange}
+							disabled={
+								simulationState === "running" ||
+								simulationState === "paused"
+							}
+							className={
+								simulationState === "running" ||
+								simulationState === "paused"
+									? "opacity-50 cursor-wait"
+									: ""
+							}
+						/>
+					</div>
 				</div>
-				<div className="flex flex-col gap-2 w-full">
-					<Label className="w-full">
-						Array Size:{" "}
-						<b className="text-muted-foreground font-normal">
-							{arraySize}
-						</b>
-					</Label>
-					<Slider
-						min={3}
-						max={250}
-						step={1}
-						defaultValue={[arraySize]}
-						onValueChange={handleArraySizeChange}
-						disabled={
-							simulationState === "running" ||
-							simulationState === "paused"
-						}
-						className={
-							simulationState === "running" ||
-							simulationState === "paused"
-								? "opacity-50 cursor-wait"
-								: ""
-						}
-					/>
+				<div className="flex flex-row gap-4">
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<Button
+								variant={"ghost"}
+								onClick={() => setPlayAudio(!playAudio)}
+							>
+								{playAudio ? (
+									<Volume2 className="h-5 w-5" />
+								) : (
+									<VolumeX className="h-5 w-5" />
+								)}
+							</Button>
+						</TooltipTrigger>
+						<TooltipContent>
+							{playAudio ? "Disable" : "Enable"} audio
+						</TooltipContent>
+					</Tooltip>
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<Button
+								variant={"ghost"}
+								onClick={() => setIsFullscreen(!isFullscreen)}
+							>
+								{isFullscreen ? (
+									<Minimize2 className="h-5 w-5" />
+								) : (
+									<Maximize2 className="h-5 w-5" />
+								)}
+							</Button>
+						</TooltipTrigger>
+						<TooltipContent>
+							{isFullscreen ? "Exit" : "Enter"} fullscreen
+						</TooltipContent>
+					</Tooltip>
 				</div>
-				<Button
-					variant={"ghost"}
-					onClick={() => setPlayAudio(!playAudio)}
-				>
-					{playAudio ? (
-						<Volume2 className="h-5 w-5" />
-					) : (
-						<VolumeX className="h-5 w-5" />
-					)}
-				</Button>
-				<Button
-					variant={"ghost"}
-					onClick={() => setIsFullscreen(!isFullscreen)}
-				>
-					{isFullscreen ? (
-						<Minimize2 className="h-5 w-5" />
-					) : (
-						<Maximize2 className="h-5 w-5" />
-					)}
-				</Button>
 				{children}
 			</TooltipProvider>
 		</div>
