@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap");
 
 @layer base {
 	:root {
@@ -83,7 +83,6 @@
 	}
 }
 
-
 .dark-scrollbar {
 	scrollbar-color: #fafafa transparent;
 }
@@ -105,30 +104,36 @@
 	display: none;
 }
 
-
-
 @keyframes fade-in {
-	from { opacity: 0; }
-  }
-  
-  @keyframes fade-out {
-	to { opacity: 0; }
-  }
-  
-  @keyframes slide-from-right {
-	from { transform: translateX(30px); }
-  }
-  
-  @keyframes slide-to-left {
-	to { transform: translateX(-30px); }
-  }
-  
-  ::view-transition-old(root) {
-	animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
-	  300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
-  }
-  
-  ::view-transition-new(root) {
-	animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
-	  300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
-  }
+	from {
+		opacity: 0;
+	}
+}
+
+@keyframes fade-out {
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes show-overlay {
+	0% {
+		opacity: 0;
+	}
+	10% {
+		opacity: 0.5;
+	}
+	85% {
+		opacity: 0.5;
+	}
+	100% {
+		opacity: 0;
+	}
+
+}
+
+.blood-overlay {
+	animation: show-overlay 10s forwards;
+	background: url(/blood-splatter.png) center center;
+	background-size: cover;
+}

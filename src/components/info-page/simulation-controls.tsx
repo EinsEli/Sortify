@@ -259,8 +259,8 @@ export default function SimulationControls({
 							{isFullscreen ? "Exit" : "Enter"} fullscreen
 						</TooltipContent>
 					</Tooltip>
+					{children}
 				</div>
-				{children}
 			</TooltipProvider>
 		</div>
 	);

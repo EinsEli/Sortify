@@ -10,8 +10,15 @@ import { Link } from "next-view-transitions";
 import Image from "next/image";
 import { navigationLinks } from "@/lib/navigation-links";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { icons } from 'lucide-react';
 
 export default function Page() {
+	const Icon = ({ name, size, className }: { name: string; size: number, className: string }) => {
+		const LucideIcon = icons[name as keyof typeof icons] as React.ComponentType<{ size: number, className: string }>;
+	  
+		return <LucideIcon className={className} size={size} />;
+	  };
+
 	return (
 		<NavHeader>
 			<ScrollArea>
@@ -55,9 +62,10 @@ export default function Page() {
 															/>
 														</div> */}
 													</CardContent>
-													<CardFooter className="flex-col items-start gap-2">
-														<CardTitle>
+													<CardFooter className="flex-col items-start gap-3">
+														<CardTitle className="flex flex-row items-center justify-between w-full">
 															{subLink.title}
+															<Icon name={subLink.icon} className="text-neutral-400 dark:text-neutral-700" size={20}/>
 														</CardTitle>
 														<CardDescription>
 															{
