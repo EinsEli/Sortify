@@ -207,7 +207,7 @@ export default function SimulationControls({
 						</Label>
 						<Slider
 							min={3}
-							max={250}
+							max={600 }
 							step={1}
 							defaultValue={[arraySize]}
 							onValueChange={handleArraySizeChange}

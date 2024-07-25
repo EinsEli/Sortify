@@ -146,7 +146,7 @@ export default function Simulation() {
 							)}
 						</Button>
 					</TooltipTrigger>
-					<TooltipContent>Pause the simulation</TooltipContent>
+					<TooltipContent>Enable Blood</TooltipContent>
 				</Tooltip>
 			</SimulationControls>
 			<Card className="w-full h-full flex flex-col" id="blood-overlay">

@@ -1,13 +1,11 @@
 import NavHeader from "@/components/layout/nav-header";
 import {
 	Card,
-	CardContent,
 	CardDescription,
-	CardFooter,
+	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
 import { Link } from "next-view-transitions";
-import Image from "next/image";
 import { navigationLinks } from "@/lib/navigation-links";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { icons } from 'lucide-react';
@@ -49,20 +47,8 @@ export default function Page() {
 												key={subLink.url}
 												href={subLink.url}
 											>
-												<Card className="hover:bg-muted transition-all duration-250 cursor-pointer min-h-42 flex items-center justify-center flex-col">
-													<CardContent className="p-0 pb-6 rounded-md">
-														{/* <div className="relative w-full h-56">
-															<Image
-																src="https://placehold.co/600x400/png"
-																alt={
-																	subLink.title
-																}
-																className="rounded-t-md"
-																fill={true}
-															/>
-														</div> */}
-													</CardContent>
-													<CardFooter className="flex-col items-start gap-3">
+												<Card className="relative hover:bg-muted hover:shadow-2xl transition-all duration-250 cursor-pointer min-h-42 flex items-center justify-center flex-col z-40">
+													<CardHeader className="flex-col items-start">
 														<CardTitle className="flex flex-row items-center justify-between w-full">
 															{subLink.title}
 															<Icon name={subLink.icon} className="text-neutral-400 dark:text-neutral-700" size={20}/>
@@ -72,7 +58,7 @@ export default function Page() {
 																subLink.description
 															}
 														</CardDescription>
-													</CardFooter>
+													</CardHeader>
 												</Card>
 											</Link>
 										))}

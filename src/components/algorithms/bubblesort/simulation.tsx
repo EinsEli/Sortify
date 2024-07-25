@@ -16,7 +16,7 @@ import TimerDisplay, { TimerRef } from "@/components/info-page/timer";
 export type SimulationState = "idle" | "running" | "paused" | "finished";
 export type SimulationData = { array: number[] };
 
-export default function Simulation() {
+export default function  Simulation() {
 	const [simulationState, setSimulationState] =
 		useState<SimulationState>("idle");
 	const [data, setData] = useState(generateRandomArray(10, 1, 100));
