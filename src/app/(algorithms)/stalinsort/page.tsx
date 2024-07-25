@@ -26,7 +26,7 @@ export default function Page() {
 		<NavHeader>
 			<ResizablePanelGroup
 				direction="horizontal"
-				className="flex-grow gap-8"
+				className="flex-grow gap-8 p-8"
 				onLayout={onLayout}
 			>
 				<ResizablePanel
@@ -37,7 +37,7 @@ export default function Page() {
 					}`}
 				>
 					{/* Side Bar */}
-					<ScrollArea className="col-span-1 flex flex-col gap-10 ">
+					<ScrollArea className="col-span-1 flex flex-col gap-10">
 						{/* Description */}
 						<Description />
 						{/* Complexity */}

@@ -115,8 +115,8 @@ export default function NavHeader({ children }: { children: React.ReactNode }) {
 				</nav>
 			</header>
 			<main
-				className={`absolute h-screen flex-col flex bg-muted/40 gap-8 p-8 w-screen ${
-					isFullscreen ? "" : "pt-24"
+				className={`absolute h-screen flex-col flex bg-muted/40 gap-8 w-screen ${
+					isFullscreen ? "" : "pt-16"
 				}`}
 			>
 				{children}
